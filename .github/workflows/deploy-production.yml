@@ -1,0 +1,71 @@
+name: Deploy Production
+
+on:
+  release:
+    types: [released]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # Build production from the release tag
+      - run: npm ci
+      - run: npm run build
+      - run: mv dist prod-build
+
+      # Build staging from the latest pre-release
+      - name: Checkout latest pre-release for staging build
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          latest_pre=$(gh release list --json tagName,isPrerelease --jq '[.[] | select(.isPrerelease)] | .[0].tagName' || true)
+          if [ -n "$latest_pre" ]; then
+            git checkout "$latest_pre"
+            npm ci
+            npm run build -- --base /staging/
+            mv dist staging-build
+          fi
+
+      # Combine into single site
+      - name: Combine production and staging
+        run: |
+          mkdir -p _site
+          cp -r prod-build/* _site/
+          if [ -d staging-build ]; then
+            mkdir -p _site/staging
+            cp -r staging-build/* _site/staging/
+          fi
+          echo "thepubliccode.org" > _site/CNAME
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

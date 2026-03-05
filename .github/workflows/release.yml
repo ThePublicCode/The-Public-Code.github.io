@@ -1,0 +1,45 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Generate calver tag
+        id: calver
+        run: |
+          today=$(date -u +%Y.%m.%d)
+          # Find existing tags for today
+          existing=$(git tag -l "${today}*" | sort -V | tail -1)
+          if [ -z "$existing" ]; then
+            tag="$today"
+          elif [ "$existing" = "$today" ]; then
+            tag="${today}.2"
+          else
+            # Extract counter and increment
+            counter=$(echo "$existing" | sed "s/${today}\.//")
+            tag="${today}.$((counter + 1))"
+          fi
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+
+      - name: Create pre-release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ steps.calver.outputs.tag }}
+          SHA: ${{ github.sha }}
+        run: |
+          gh release create "$TAG" \
+            --target "$SHA" \
+            --title "$TAG" \
+            --generate-notes \
+            --prerelease
