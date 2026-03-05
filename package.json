@@ -1,0 +1,20 @@
+{
+  "name": "the-public-code-org",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1"
+  },
+  "dependencies": {
+    "@bruk-io/bh-01": "file:vendor/bruk-io-bh-01-0.0.1.tgz",
+    "lit": "^3.3.2",
+    "marked": "^17.0.4"
+  }
+}

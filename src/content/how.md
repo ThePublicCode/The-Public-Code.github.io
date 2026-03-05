@@ -1,0 +1,1 @@
+This isn't a platform or a marketplace. It's a direct relationship — you tell me what you need, we figure out if I can help.

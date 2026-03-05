@@ -1,0 +1,42 @@
+/* ── reset & base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --green:      #1C4E3F;
+  --sage:       #4A7C6F;
+  --moss:       #92BDB0;
+  --cream:      #F8F4EE;
+  --warm-white: #FDFAF6;
+  --parchment:  #EDE8DF;
+  --amber:      #D97B2A;
+  --amber-l:    #F2A55A;
+  --charcoal:   #1E1E1A;
+  --stone:      #6B6860;
+  --radius:     12px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--cream);
+  color: var(--charcoal);
+  font-family: 'DM Sans', sans-serif;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── typography ── */
+.display {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+.serif   { font-family: 'Fraunces', Georgia, serif; }
+.mono    { font-family: 'DM Mono', monospace; }
+.label   { font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; }
+
+/* ── layout ── */
+.container { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+.section   { padding: 96px 0; }
+.section + .section { border-top: 1px solid var(--parchment); }

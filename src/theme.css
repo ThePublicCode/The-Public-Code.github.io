@@ -1,0 +1,33 @@
+/* TPC Theme — overrides bh-01 semantic tokens */
+:root {
+  /* Surfaces */
+  --bh-color-bg: #F8F4EE;
+  --bh-color-surface: #FDFAF6;
+  --bh-color-surface-raised: #FDFAF6;
+  --bh-color-surface-recessed: #EDE8DF;
+  --bh-color-surface-overlay: #FDFAF6;
+
+  /* Text */
+  --bh-color-text: #1E1E1A;
+  --bh-color-text-muted: #6B6860;
+  --bh-color-text-tertiary: #6B6860;
+  --bh-color-text-inverse: #F8F4EE;
+
+  /* Primary */
+  --bh-color-primary: #1C4E3F;
+  --bh-color-primary-hover: #4A7C6F;
+  --bh-color-primary-active: #1C4E3F;
+  --bh-color-primary-text: #F8F4EE;
+
+  /* Accent */
+  --bh-color-accent: #D97B2A;
+  --bh-color-accent-secondary: #F2A55A;
+
+  /* Borders */
+  --bh-color-border: #EDE8DF;
+  --bh-color-border-muted: #EDE8DF;
+
+  /* Links */
+  --bh-color-link: #1C4E3F;
+  --bh-color-link-hover: #4A7C6F;
+}
